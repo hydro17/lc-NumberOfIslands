@@ -6,8 +6,8 @@ public class Main {
 
         char[][] island = {
                 {'0', '1', '0'},
-                {'1', '0', '1'},
-                {'0', '1', '1'}
+                {'1', '1', '1'},
+                {'0', '1', '0'}
         };
 
         int numIslands = new Solution().numIslands(island);
