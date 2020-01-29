@@ -5,39 +5,42 @@ import java.util.Arrays;
 class Solution {
     public int numIslands(char[][] grid) {
 
-        Node[][] gridAsNodes = new Node[grid.length][grid[0].length];
+        if (grid.length == 0) return 0;
 
-        for (char[] g : grid) {
-            System.out.println(Arrays.toString(g));
-        }
+        boolean[][] isVisited = new boolean[grid.length][grid[0].length];
+        int islandsCount = 0;
 
         for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j <grid[i].length; j++) {
-                gridAsNodes[i][j] = new Node(grid[i][j]);
-            }
-        }
-
-        for (int i = 0; i < gridAsNodes.length; i++) {
-            for (int j = 0; j <gridAsNodes[i].length; j++) {
-                if (i - 1 > 0) {
-                    gridAsNodes[i][j].getNeighbours().add(gridAsNodes[i - 1][j]);
-                }
-                if (j + 1 < gridAsNodes[i].length) {
-                    gridAsNodes[i][j].getNeighbours().add(gridAsNodes[i][j + 1]);
-                }
-                if (i + 1 < gridAsNodes.length) {
-                    gridAsNodes[i][j].getNeighbours().add(gridAsNodes[i + 1][j]);
-                }
-                if (j - 1 > 0) {
-                    gridAsNodes[i][j].getNeighbours().add(gridAsNodes[i][j - 1]);
+            for (int j = 0; j < grid[i].length; j++) {
+                if (!isVisited[i][j] && grid[i][j] == '1') {
+                    islandsCount++;
+                    markIslandPieces(i, j, grid, isVisited);
                 }
             }
         }
 
-        for (Node[] n : gridAsNodes) {
-            System.out.println(Arrays.toString(n));
+        return islandsCount;
+    }
+
+    private void markIslandPieces(int i, int j, char[][] grid, boolean[][] isVisited) {
+        if (isVisited[i][j] || grid[i][j] == '0') return;
+
+        isVisited[i][j] = true;
+
+        if (i - 1 >= 0) {
+            markIslandPieces(i - 1, j, grid, isVisited);
         }
 
-        return 0;
+        if (j + 1 < grid[i].length) {
+            markIslandPieces(i , j + 1, grid, isVisited);
+        }
+
+        if (i + 1 < grid.length) {
+            markIslandPieces(i + 1, j, grid, isVisited);
+        }
+
+        if (j - 1 >= 0) {
+            markIslandPieces(i, j - 1, grid, isVisited);
+        }
     }
 }
